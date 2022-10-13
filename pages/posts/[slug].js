@@ -1,10 +1,5 @@
 import { getGlobalData } from '../../utils/global-data';
-import {
-  getNextPostBySlug,
-  getPostBySlug,
-  getPreviousPostBySlug,
-  postFilePaths,
-} from '../../utils/mdx-utils';
+import { getPost, getSlugs, getPrev, getNext } from '../../utils/wordpress';
 
 import { MDXRemote } from 'next-mdx-remote';
 import Head from 'next/head';
@@ -16,44 +11,20 @@ import Header from '../../components/Header';
 import Layout, { GradientBackground } from '../../components/Layout';
 import SEO from '../../components/SEO';
 
-// Custom components/renderers to pass to MDX.
-// Since the MDX files aren't loaded by webpack, they have no knowledge of how
-// to handle import statements. Instead, you must include components in scope
-// here.
-const components = {
-  a: CustomLink,
-  // It also works with dynamically-imported components, which is especially
-  // useful for conditionally loading components for certain routes.
-  // See the notes in README.md for more details.
-  Head,
-};
-
-export default function PostPage({
-  source,
-  frontMatter,
-  prevPost,
-  nextPost,
-  globalData,
-}) {
+export default function PostPage({ post, prevPost, nextPost, globalData }) {
   return (
     <Layout>
-      <SEO
-        title={`${frontMatter.title} - ${globalData.name}`}
-        description={frontMatter.description}
-      />
+      <SEO title={`${post.title.rendered} - ${globalData.name}`} />
       <Header name={globalData.name} />
       <article className="px-6 md:px-0">
         <header>
           <h1 className="text-3xl md:text-5xl dark:text-white text-center mb-12">
-            {frontMatter.title}
+            {post.title.rendered}
           </h1>
-          {frontMatter.description && (
-            <p className="text-xl mb-4">{frontMatter.description}</p>
-          )}
         </header>
         <main>
           <article className="prose dark:prose-dark">
-            <MDXRemote {...source} components={components} />
+            <p className="mt-3 text-lg opacity-60">{post.content.rendered}</p>
           </article>
         </main>
         <div className="grid md:grid-cols-2 lg:-mx-24 mt-12">
@@ -64,7 +35,7 @@ export default function PostPage({
                   Previous
                 </p>
                 <h4 className="text-2xl text-gray-700 mb-6 dark:text-white">
-                  {prevPost.title}
+                  {prevPost.title.rendered}
                 </h4>
                 <ArrowIcon className="transform rotate-180 mx-auto md:mr-0 mt-auto" />
               </a>
@@ -77,7 +48,7 @@ export default function PostPage({
                   Next
                 </p>
                 <h4 className="text-2xl text-gray-700 mb-6 dark:text-white">
-                  {nextPost.title}
+                  {nextPost.title.rendered}
                 </h4>
                 <ArrowIcon className="mt-auto mx-auto md:ml-0" />
               </a>
@@ -98,32 +69,49 @@ export default function PostPage({
   );
 }
 
-export const getStaticProps = async ({ params }) => {
-  const globalData = getGlobalData();
-  const { mdxSource, data } = await getPostBySlug(params.slug);
-  const prevPost = getPreviousPostBySlug(params.slug);
-  const nextPost = getNextPostBySlug(params.slug);
+export async function getStaticPaths() {
+  const slugs = await getSlugs('posts');
 
+  return {
+    paths: slugs,
+    fallback: 'blocking',
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const globalData = getGlobalData();
+  const post = await getPost(params.slug);
   return {
     props: {
-      globalData,
-      source: mdxSource,
-      frontMatter: data,
-      prevPost,
-      nextPost,
+      globalData: globalData,
+      post: post,
+      prevPost: await getPrev(params.slug),
+      nextPost: await getNext(params.slug),
     },
   };
-};
+}
 
-export const getStaticPaths = async () => {
-  const paths = postFilePaths
-    // Remove file extensions for page paths
-    .map((path) => path.replace(/\.mdx?$/, ''))
-    // Map the path into the static paths object required by Next.js
-    .map((slug) => ({ params: { slug } }));
+// export const getStaticProps = async ({ params }) => {
+//   const globalData = getGlobalData();
+//   const { mdxSource, data } = await getPostBySlug(params.slug);
+//   const prevPost = getPreviousPostBySlug(params.slug);
+//   const nextPost = getNextPostBySlug(params.slug);
 
-  return {
-    paths,
-    fallback: false,
-  };
-};
+//   return {
+//     props: {
+//       globalData,
+//       source: mdxSource,
+//       frontMatter: data,
+//       prevPost,
+//       nextPost,
+//     },
+//   };
+// };
+
+// {
+//   source,
+//   frontMatter,
+//   prevPost,
+//   nextPost,
+//   globalData,
+// }
