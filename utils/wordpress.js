@@ -10,7 +10,6 @@ export async function getPost(slug) {
   const posts = await getPosts();
   const postArray = posts.filter((post) => post.slug == slug);
   const post = postArray.length > 0 ? postArray[0] : null;
-  //   console.log(post);
   return post;
 }
 export async function getPrev(slug) {

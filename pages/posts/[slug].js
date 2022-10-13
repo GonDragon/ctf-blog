@@ -1,11 +1,9 @@
 import { getGlobalData } from '../../utils/global-data';
 import { getPost, getSlugs, getPrev, getNext } from '../../utils/wordpress';
 
-import { MDXRemote } from 'next-mdx-remote';
-import Head from 'next/head';
 import Link from 'next/link';
 import ArrowIcon from '../../components/ArrowIcon';
-import CustomLink from '../../components/CustomLink';
+// import CustomLink from '../../components/CustomLink';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import Layout, { GradientBackground } from '../../components/Layout';
@@ -90,28 +88,3 @@ export async function getStaticProps({ params }) {
     },
   };
 }
-
-// export const getStaticProps = async ({ params }) => {
-//   const globalData = getGlobalData();
-//   const { mdxSource, data } = await getPostBySlug(params.slug);
-//   const prevPost = getPreviousPostBySlug(params.slug);
-//   const nextPost = getNextPostBySlug(params.slug);
-
-//   return {
-//     props: {
-//       globalData,
-//       source: mdxSource,
-//       frontMatter: data,
-//       prevPost,
-//       nextPost,
-//     },
-//   };
-// };
-
-// {
-//   source,
-//   frontMatter,
-//   prevPost,
-//   nextPost,
-//   globalData,
-// }

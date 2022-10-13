@@ -1,5 +1,4 @@
 import Link from 'next/link';
-// import { getPosts } from '../utils/mdx-utils';
 import { getPosts } from '../utils/wordpress';
 
 import Footer from '../components/Footer';
