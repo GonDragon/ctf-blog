@@ -23,7 +23,7 @@ export default function PostPage({ post, prevPost, nextPost, globalData }) {
         <main>
           <article className="prose prose-dark">
             <div
-              className="mt-3 text-lg opacity-60"
+              className="mt-3 text-lg opacity-60 console-dark"
               dangerouslySetInnerHTML={{ __html: post.content.rendered }}
             />
           </article>

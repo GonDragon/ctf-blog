@@ -62,7 +62,7 @@ module.exports = {
       },
       typography(theme) {
         return {
-           {
+          dark: {
             css: {
               color: theme('colors.gray.300'),
               '[class~="lead"]': { color: theme('colors.gray.400') },
