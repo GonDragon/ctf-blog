@@ -21,7 +21,7 @@ export default function Index({ posts, globalData }) {
           {posts.map((post) => (
             <li
               key={post.id}
-              className="md:first:rounded-t-lg md:last:rounded-b-lg backdrop-blur-lg bg-white bg-black bg-opacity-30 bg-opacity-10 hover:bg-opacity-20 hover:bg-opacity-50 transition border border-gray-800 border-white border-opacity-10 border-opacity-10 border-b-0 last:border-b hover:border-b hovered-sibling:border-t-0"
+              className="md:first:rounded-t-lg md:last:rounded-b-lg backdrop-blur-lg bg-black bg-opacity-30 hover:bg-opacity-50 transition border border-gray-800 border-white border-opacity-10 border-opacity-10 border-b-0 last:border-b hover:border-b hovered-sibling:border-t-0"
             >
               <Link as={`/posts/${post.slug}`} href={`/posts/[slug]`}>
                 <a className="py-6 lg:py-10 px-6 lg:px-16 block focus:outline-none focus:ring-4">
@@ -35,7 +35,7 @@ export default function Index({ posts, globalData }) {
                   </h2>
                   {post.excerpt.rendered && (
                     <div
-                      className="mt-3 text-lg opacity-60"
+                      className="mt-3 text-lg opacity-60 console"
                       dangerouslySetInnerHTML={{
                         __html: post.excerpt.rendered,
                       }}
