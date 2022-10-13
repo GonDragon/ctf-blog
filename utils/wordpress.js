@@ -1,4 +1,4 @@
-const BASE_URL = 'http://wordpress/wp-json/wp/v2';
+const BASE_URL = 'http://c1402081.ferozo.com/wp-json/wp/v2';
 
 export async function getPosts() {
   const postsRes = await fetch(BASE_URL + '/posts?_embed');
