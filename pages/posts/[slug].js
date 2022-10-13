@@ -22,7 +22,10 @@ export default function PostPage({ post, prevPost, nextPost, globalData }) {
         </header>
         <main>
           <article className="prose dark:prose-dark">
-            <p className="mt-3 text-lg opacity-60">{post.content.rendered}</p>
+            <div
+              className="mt-3 text-lg opacity-60"
+              dangerouslySetInnerHTML={{ __html: post.content.rendered }}
+            />
           </article>
         </main>
         <div className="grid md:grid-cols-2 lg:-mx-24 mt-12">

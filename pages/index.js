@@ -34,9 +34,12 @@ export default function Index({ posts, globalData }) {
                     {post.title.rendered}
                   </h2>
                   {post.excerpt.rendered && (
-                    <p className="mt-3 text-lg opacity-60">
-                      {post.excerpt.rendered}
-                    </p>
+                    <div
+                      className="mt-3 text-lg opacity-60"
+                      dangerouslySetInnerHTML={{
+                        __html: post.excerpt.rendered,
+                      }}
+                    />
                   )}
                   <ArrowIcon className="mt-4" />
                 </a>
